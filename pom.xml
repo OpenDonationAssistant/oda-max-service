@@ -34,6 +34,12 @@
   <dependencies>
 
     <dependency>
+      <groupId>com.fasterxml.uuid</groupId>
+      <artifactId>java-uuid-generator</artifactId>
+      <version>5.0.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>io.github.opendonationassistant</groupId>
       <artifactId>oda-rabbit-conf</artifactId>
       <version>0.10.199</version>
