@@ -88,6 +88,12 @@
     </dependency>
 
     <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <dependency>
       <groupId>io.micronaut.micrometer</groupId>
       <artifactId>micronaut-micrometer-core</artifactId>
       <scope>compile</scope>
