@@ -24,7 +24,7 @@ public class GenerateLink extends BaseController {
     this.linkCodes = linkCodes;
   }
 
-  @Post
+  @Post("/max/commands/generate-link")
   @Secured(SecurityRule.IS_AUTHENTICATED)
   public CompletableFuture<HttpResponse<TemporaryLink>> generateLink(
     Authentication auth
