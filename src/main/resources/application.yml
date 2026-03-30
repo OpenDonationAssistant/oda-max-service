@@ -1,0 +1,38 @@
+micronaut:
+  application:
+    name: oda-max-service
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        descriptions: true
+        step: PT1M
+    enabled: true
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          jwks:
+            keycloak:
+              url: https://auth.oda.digital/realms/ODA/protocol/openid-connect/certs
+  caches:
+    jwks:
+      expire-after-write: 240h
+  executors:
+    events-listener:
+      type: fixed
+      nThreads: 1
+  http.services.max.url: https://platform-api.max.ru
+flyway:
+  datasources:
+    default:
+      enabled: true
+endpoints:
+  all:
+    enabled: true
+    sensitive: false
+  caches:
+    enabled: true
+  loggers:
+    write-sensitive: false
