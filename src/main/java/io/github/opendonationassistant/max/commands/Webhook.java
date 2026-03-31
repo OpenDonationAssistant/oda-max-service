@@ -51,9 +51,7 @@ public class Webhook {
     log.info("Received webhook", Map.of("payload", payload));
     switch (payload.updateType()) {
       case "bot_started":
-        Optional.ofNullable(payload.payload()).ifPresent(
-          this::handleBotStarted
-        );
+        handleBotStarted(payload.payload(), payload.user());
         break;
       case "bot_added":
         Optional.ofNullable(payload.chatId()).ifPresent(this::handleBotAdded);
@@ -64,9 +62,15 @@ public class Webhook {
     return CompletableFuture.completedFuture(HttpResponse.ok());
   }
 
-  private void handleBotStarted(String payload) {
+  private void handleBotStarted(@Nullable String payload, @Nullable User user) {
+    if (payload == null || user == null) {
+      return;
+    }
+    if (user.userId() == null) {
+      return;
+    }
     Optional.ofNullable(linkCodes.get(payload)).ifPresent(recipientId ->
-      repository.create(recipientId, payload)
+      repository.create(recipientId, user.userId())
     );
   }
 

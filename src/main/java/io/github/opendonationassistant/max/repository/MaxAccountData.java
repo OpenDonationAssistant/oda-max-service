@@ -9,6 +9,6 @@ import io.micronaut.serde.annotation.Serdeable;
 public record MaxAccountData(
   @Id String id,
   String recipientId,
-  String maxId,
-  Boolean enabled
+  Integer maxId,
+  boolean enabled
 ) {}

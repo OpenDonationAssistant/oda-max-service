@@ -27,7 +27,7 @@ public class MaxAccountRepository {
     this.api = api;
   }
 
-  public MaxAccount create(String recipientId, String maxId) {
+  public MaxAccount create(String recipientId, Integer maxId) {
     var id = Generators.timeBasedEpochGenerator().generate().toString();
     MaxAccountData data = new MaxAccountData(id, recipientId, maxId, true);
     dataRepository.save(data);
