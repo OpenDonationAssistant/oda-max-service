@@ -8,7 +8,7 @@ import java.util.List;
 @JdbcRepository(dialect = Dialect.POSTGRES)
 public interface MaxAccountDataRepository
   extends CrudRepository<MaxAccountData, String> {
-  public List<MaxAccountData> findByMaxId(String maxId);
+  public List<MaxAccountData> findByMaxId(Integer maxId);
 
   public List<MaxAccountData> findByRecipientId(String recipientId);
 }

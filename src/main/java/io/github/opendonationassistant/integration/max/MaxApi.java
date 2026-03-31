@@ -31,7 +31,7 @@ public interface MaxApi {
   public static record Chat(
     @JsonProperty("chat_id") Integer id,
     String title,
-    @JsonProperty("owner_id") String ownerId
+    @JsonProperty("owner_id") Integer ownerId
   ) {}
 
   @Serdeable

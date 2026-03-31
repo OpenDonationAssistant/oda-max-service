@@ -44,7 +44,7 @@ public class MaxAccountRepository {
     ).map(this::convert);
   }
 
-  public Optional<MaxAccount> findByMaxId(String maxId) {
+  public Optional<MaxAccount> findByMaxId(Integer maxId) {
     return Optional.ofNullable(
       dataRepository.findByMaxId(maxId).getFirst()
     ).map(this::convert);
