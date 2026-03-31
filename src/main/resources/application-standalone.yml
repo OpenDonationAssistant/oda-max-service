@@ -9,3 +9,7 @@ datasources:
 logger:
   levels:
     io.github.opendonationassistant: INFO
+flyway:
+  datasources:
+    default:
+      enabled: true

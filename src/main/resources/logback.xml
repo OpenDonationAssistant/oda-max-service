@@ -5,11 +5,11 @@
       <pattern>{"timestamp":"%d{HH:mm:ss.SSS}","level":"%level","logger":"%logger","context":[%X{context}],"errors":[%X{error}],"message": "%replace(%replace(%msg){'\"','\\"'}){'\n',\" \"}"}%n</pattern>
     </encoder>
   </appender>
-  <logger name="org.flywaydb.core" level="WARN"/>
+  <logger name="org.flywaydb.core" level="DEBUG"/>
   <logger name="com.zaxxer.hikari" level="WARN"/>
   <logger name="io.micronaut.logging.PropertiesLoggingLevelsConfigurer" level="WARN"/>
-  <logger name="io.micronaut.flyway.AbstractFlywayMigration" level="WARN"/>
-  <root level="info">
+  <logger name="io.micronaut.flyway.AbstractFlywayMigration" level="DEBUG"/>
+  <root level="INFO">
     <appender-ref ref="STDOUT"/>
   </root>
 </configuration>
