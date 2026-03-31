@@ -12,11 +12,15 @@ import java.io.IOException;
 public class TwitchStreamStartedEventHandler
   extends AbstractMessageHandler<TwitchStreamStartedEvent> {
 
-  private AnnouncerRepository announcerRepository;
+  private final AnnouncerRepository announcerRepository;
 
   @Inject
-  public TwitchStreamStartedEventHandler(ObjectMapper mapper) {
+  public TwitchStreamStartedEventHandler(
+    ObjectMapper mapper,
+    AnnouncerRepository announcerRepository
+  ) {
     super(mapper);
+    this.announcerRepository = announcerRepository;
   }
 
   @Override
