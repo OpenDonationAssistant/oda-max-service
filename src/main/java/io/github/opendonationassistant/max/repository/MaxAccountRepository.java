@@ -13,14 +13,17 @@ public class MaxAccountRepository {
 
   private final ODALogger log = new ODALogger(this);
   private final MaxAccountDataRepository dataRepository;
+  private final ChatRepository chatRepository;
   private final MaxApi api;
 
   @Inject
   public MaxAccountRepository(
     MaxAccountDataRepository dataRepository,
+    ChatRepository chatRepository,
     MaxApi api
   ) {
     this.dataRepository = dataRepository;
+    this.chatRepository = chatRepository;
     this.api = api;
   }
 
@@ -48,6 +51,6 @@ public class MaxAccountRepository {
   }
 
   private MaxAccount convert(MaxAccountData data) {
-    return new MaxAccount(data, api);
+    return new MaxAccount(data, api, chatRepository);
   }
 }

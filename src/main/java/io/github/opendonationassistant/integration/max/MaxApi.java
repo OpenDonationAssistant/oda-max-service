@@ -1,9 +1,12 @@
 package io.github.opendonationassistant.integration.max;
 
+import static io.micronaut.http.HttpHeaders.AUTHORIZATION;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.opendonationassistant.integration.max.model.Message;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Header;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.QueryValue;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Client("max")
+@Header(name = AUTHORIZATION, value = "Bearer ${max.token}")
 public interface MaxApi {
   @Post("/messages")
   public CompletableFuture<Message> sendMessage(

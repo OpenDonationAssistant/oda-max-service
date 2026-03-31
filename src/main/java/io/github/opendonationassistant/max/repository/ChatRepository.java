@@ -2,6 +2,7 @@ package io.github.opendonationassistant.max.repository;
 
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import java.util.List;
 
 @Singleton
 public class ChatRepository {
@@ -15,6 +16,18 @@ public class ChatRepository {
 
   public Chat save(ChatData data) {
     dataRepository.save(data);
+    return convert(data);
+  }
+
+  public List<Chat> list(String ownerId) {
+    return dataRepository
+      .findByOwnerId(ownerId)
+      .stream()
+      .map(this::convert)
+      .toList();
+  }
+
+  private Chat convert(ChatData data) {
     return new Chat(data, dataRepository);
   }
 }

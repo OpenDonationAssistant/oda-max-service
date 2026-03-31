@@ -9,4 +9,8 @@ public class Chat {
     this.data = data;
     this.dataRepository = dataRepository;
   }
+
+  public ChatData data() {
+    return data;
+  }
 }
