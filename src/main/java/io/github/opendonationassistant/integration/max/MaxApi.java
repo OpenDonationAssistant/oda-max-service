@@ -21,7 +21,7 @@ public interface MaxApi {
   @Post("/messages")
   public CompletableFuture<Message> sendMessage(
     @Body MessageRequest request,
-    @QueryValue("chat_id") String chatId
+    @QueryValue("chat_id") Integer chatId
   );
 
   @Get("/chats/{chatId}")

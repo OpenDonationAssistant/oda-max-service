@@ -87,7 +87,7 @@ public class Webhook {
     String timestamp,
     Message message,
     @Nullable User user,
-    @Nullable Integer chatId,
+    @Nullable @JsonProperty("chat_id") Integer chatId,
     @Nullable String payload
   ) {}
 }
