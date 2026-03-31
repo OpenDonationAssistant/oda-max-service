@@ -56,5 +56,5 @@ public class MaxController extends BaseController {
   }
 
   @Serdeable
-  public static record AccountDto(Integer id) {}
+  public static record AccountDto(Long id) {}
 }

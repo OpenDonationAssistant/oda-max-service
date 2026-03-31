@@ -22,7 +22,7 @@ public class AnnouncerRepository {
 
   public Announcer create(
     String recipientId,
-    Integer chatId,
+    Long chatId,
     String text,
     List<Button> buttons
   ) {

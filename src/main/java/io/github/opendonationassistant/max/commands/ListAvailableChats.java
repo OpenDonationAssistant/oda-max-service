@@ -49,5 +49,5 @@ public class ListAvailableChats extends BaseController {
   }
 
   @Serdeable
-  public record ChatDto(Integer id, String title) {}
+  public record ChatDto(Long id, String title) {}
 }

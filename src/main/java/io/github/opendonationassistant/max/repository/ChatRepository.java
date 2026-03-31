@@ -19,7 +19,7 @@ public class ChatRepository {
     return convert(data);
   }
 
-  public List<Chat> list(Integer ownerId) {
+  public List<Chat> list(Long ownerId) {
     return dataRepository
       .findByOwnerId(ownerId)
       .stream()

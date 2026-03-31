@@ -27,7 +27,7 @@ public class MaxAccountRepository {
     this.api = api;
   }
 
-  public MaxAccount create(String recipientId, Integer maxId) {
+  public MaxAccount create(String recipientId, Long maxId) {
     var id = Generators.timeBasedEpochGenerator().generate().toString();
     MaxAccountData data = new MaxAccountData(id, recipientId, maxId, true);
     dataRepository.save(data);
@@ -44,7 +44,7 @@ public class MaxAccountRepository {
     ).map(this::convert);
   }
 
-  public Optional<MaxAccount> findByMaxId(Integer maxId) {
+  public Optional<MaxAccount> findByMaxId(Long maxId) {
     return Optional.ofNullable(
       dataRepository.findByMaxId(maxId).getFirst()
     ).map(this::convert);

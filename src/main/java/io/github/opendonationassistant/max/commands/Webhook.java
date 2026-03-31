@@ -74,7 +74,7 @@ public class Webhook {
     );
   }
 
-  private void handleBotAdded(Integer chatId) {
+  private void handleBotAdded(Long chatId) {
     api
       .getChatInfo(chatId)
       .thenAccept(chat -> {
@@ -91,7 +91,7 @@ public class Webhook {
     String timestamp,
     Message message,
     @Nullable @JsonProperty("user") User user,
-    @Nullable @JsonProperty("chat_id") Integer chatId,
+    @Nullable @JsonProperty("chat_id") Long chatId,
     @Nullable String payload
   ) {}
 }

@@ -20,7 +20,7 @@ public class ChatRefresher {
   private ODALogger log = new ODALogger(this);
   private final MaxApi api;
   private final ChatRepository chatRepository;
-  private Integer lastEventTime = 0;
+  private Long lastEventTime = 0L;
 
   @Inject
   public ChatRefresher(MaxApi api, ChatRepository chatRepository) {

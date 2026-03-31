@@ -6,4 +6,4 @@ import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable
 @MappedEntity("chats")
-public record ChatData(@Id Integer id, String title, Integer ownerId) {}
+public record ChatData(@Id Long id, String title, Long ownerId) {}

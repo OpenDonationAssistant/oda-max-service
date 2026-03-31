@@ -6,6 +6,6 @@ import io.micronaut.data.repository.CrudRepository;
 import java.util.List;
 
 @JdbcRepository(dialect = Dialect.POSTGRES)
-public interface ChatDataRepository extends CrudRepository<ChatData, Integer> {
-  List<ChatData> findByOwnerId(Integer ownerId);
+public interface ChatDataRepository extends CrudRepository<ChatData, Long> {
+  List<ChatData> findByOwnerId(Long ownerId);
 }

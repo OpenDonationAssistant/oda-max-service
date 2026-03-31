@@ -23,11 +23,11 @@ public interface MaxApi {
   @Post("/messages")
   public CompletableFuture<Message> sendMessage(
     @Body MessageRequest request,
-    @QueryValue("chat_id") Integer chatId
+    @QueryValue("chat_id") Long chatId
   );
 
   @Get("/chats/{chatId}")
-  public CompletableFuture<Chat> getChatInfo(@PathVariable Integer chatId);
+  public CompletableFuture<Chat> getChatInfo(@PathVariable Long chatId);
 
   @Get("/chats")
   public CompletableFuture<PagedChats> getChats(
@@ -40,11 +40,11 @@ public interface MaxApi {
 
   @Serdeable
   public static record Chat(
-    @JsonProperty("chat_id") Integer id,
+    @JsonProperty("chat_id") Long id,
     String title,
-    @JsonProperty("owner_id") Integer ownerId,
+    @JsonProperty("owner_id") Long ownerId,
     String status,
-    @JsonProperty("last_event_time") Integer lastEventTime
+    @JsonProperty("last_event_time") Long lastEventTime
   ) {}
 
   @Serdeable

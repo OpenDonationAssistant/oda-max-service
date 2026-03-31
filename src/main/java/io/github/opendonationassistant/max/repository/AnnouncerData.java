@@ -12,7 +12,7 @@ import java.util.List;
 public record AnnouncerData(
   @Id String id,
   String recipientId,
-  Integer chatId,
+  Long chatId,
   String text,
   @MappedProperty(type = DataType.JSON, value = "buttons") List<Button> buttons,
   Boolean enabled

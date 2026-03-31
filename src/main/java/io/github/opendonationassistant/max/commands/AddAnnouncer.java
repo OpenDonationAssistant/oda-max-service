@@ -52,7 +52,7 @@ public class AddAnnouncer extends BaseController {
   }
 
   @Serdeable
-  public static record AddAnnouncerRequest(String text, Integer chatId, List<Button> buttons) {}
+  public static record AddAnnouncerRequest(String text, Long chatId, List<Button> buttons) {}
 
   @Serdeable
   public static record Button(String text, String url) {}
