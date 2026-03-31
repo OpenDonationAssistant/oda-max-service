@@ -10,5 +10,5 @@ CREATE TABLE announcers (
 CREATE TABLE chats (
     id BIGINT PRIMARY KEY,
     title VARCHAR(512) NOT NULL,
-    owner_id VARCHAR(255) NOT NULL
+    owner_id BIGINT NOT NULL
 );
