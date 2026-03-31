@@ -9,6 +9,7 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
 import java.security.SecureRandom;
 import java.util.Map;
@@ -26,6 +27,15 @@ public class GenerateLink extends BaseController {
 
   @Post("/max/commands/generate-link")
   @Secured(SecurityRule.IS_AUTHENTICATED)
+  @ApiResponse(
+    responseCode = "200",
+    description = "OK",
+    content = @io.swagger.v3.oas.annotations.media.Content(
+      schema = @io.swagger.v3.oas.annotations.media.Schema(
+        implementation = TemporaryLink.class
+      )
+    )
+  )
   public CompletableFuture<HttpResponse<TemporaryLink>> generateLink(
     Authentication auth
   ) {
