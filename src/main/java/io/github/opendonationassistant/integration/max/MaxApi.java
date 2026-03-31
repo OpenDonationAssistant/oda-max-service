@@ -15,6 +15,8 @@ import io.micronaut.serde.annotation.Serdeable;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import org.jspecify.annotations.Nullable;
+
 @Client("max")
 @Header(name = AUTHORIZATION, value = "Bearer ${max.token}")
 public interface MaxApi {
@@ -27,11 +29,22 @@ public interface MaxApi {
   @Get("/chats/{chatId}")
   public CompletableFuture<Chat> getChatInfo(@PathVariable Integer chatId);
 
+  @Get("/chats")
+  public CompletableFuture<PagedChats> getChats(
+    @QueryValue("count") Integer count,
+    @Nullable @QueryValue("marker") Integer marker
+  );
+
+  @Serdeable
+  public static record PagedChats(List<Chat> chats, Integer marker) {}
+
   @Serdeable
   public static record Chat(
     @JsonProperty("chat_id") Integer id,
     String title,
-    @JsonProperty("owner_id") Integer ownerId
+    @JsonProperty("owner_id") Integer ownerId,
+    String status,
+    @JsonProperty("last_event_time") Integer lastEventTime
   ) {}
 
   @Serdeable
