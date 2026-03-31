@@ -1,7 +1,6 @@
 package io.github.opendonationassistant.max.repository;
 
 import com.fasterxml.uuid.Generators;
-
 import io.github.opendonationassistant.integration.max.MaxApi;
 import io.github.opendonationassistant.max.repository.AnnouncerData.Button;
 import jakarta.inject.Inject;
@@ -12,11 +11,17 @@ import java.util.List;
 public class AnnouncerRepository {
 
   private final AnnouncerDataRepository dataRepository;
+  private final AnnounceRepository announceRepository;
   private final MaxApi api;
 
   @Inject
-  public AnnouncerRepository(AnnouncerDataRepository dataRepository, MaxApi api) {
+  public AnnouncerRepository(
+    AnnouncerDataRepository dataRepository,
+    AnnounceRepository announceRepository,
+    MaxApi api
+  ) {
     this.dataRepository = dataRepository;
+    this.announceRepository = announceRepository;
     this.api = api;
   }
 
@@ -29,14 +34,14 @@ public class AnnouncerRepository {
     var id = Generators.timeBasedEpochGenerator().generate().toString();
     var data = new AnnouncerData(id, recipientId, chatId, text, buttons, true);
     dataRepository.save(data);
-    return new Announcer(data, dataRepository, api);
+    return new Announcer(data, dataRepository, announceRepository, api);
   }
 
   public List<Announcer> findByRecipientId(String recipientId) {
     return dataRepository
       .findByRecipientId(recipientId)
       .stream()
-      .map(data -> new Announcer(data, dataRepository, api))
+      .map(data -> new Announcer(data, dataRepository, announceRepository, api))
       .toList();
   }
 }

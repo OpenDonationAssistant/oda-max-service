@@ -7,15 +7,18 @@ public class Announcer {
 
   private AnnouncerData data;
   private final AnnouncerDataRepository dataRepository;
+  private final AnnounceRepository announceRepository;
   private final MaxApi api;
 
   public Announcer(
     AnnouncerData data,
     AnnouncerDataRepository dataRepository,
+    AnnounceRepository announceRepository,
     MaxApi api
   ) {
     this.data = data;
     this.dataRepository = dataRepository;
+    this.announceRepository = announceRepository;
     this.api = api;
   }
 
