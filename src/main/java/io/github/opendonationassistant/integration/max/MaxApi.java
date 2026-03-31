@@ -42,7 +42,7 @@ public interface MaxApi {
   public static record Chat(
     @JsonProperty("chat_id") Long id,
     String title,
-    @JsonProperty("owner_id") Long ownerId,
+    @Nullable @JsonProperty("owner_id") Long ownerId,
     String status,
     @JsonProperty("last_event_time") Long lastEventTime
   ) {}

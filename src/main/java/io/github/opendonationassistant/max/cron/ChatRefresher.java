@@ -66,11 +66,15 @@ public class ChatRefresher {
     chats
       .stream()
       .filter(chat -> "active".equals(chat.status()))
-      .forEach(chat ->
+      .forEach(chat -> {
+        var ownerId = chat.ownerId();
+        if (ownerId == null) {
+          return;
+        }
         chatRepository.save(
           new ChatData(chat.id(), chat.title(), chat.ownerId())
-        )
-      );
+        );
+      });
     return Optional.ofNullable(chats.getLast())
       .map(chat -> chat.lastEventTime())
       .filter(lastEventTime -> lastEventTime > this.lastEventTime)

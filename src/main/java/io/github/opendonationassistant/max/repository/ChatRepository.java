@@ -15,7 +15,11 @@ public class ChatRepository {
   }
 
   public Chat save(ChatData data) {
-    dataRepository.save(data);
+    if (dataRepository.findById(data.id()).isPresent()){
+      dataRepository.update(data);
+    } else {
+      dataRepository.save(data);
+    }
     return convert(data);
   }
 
