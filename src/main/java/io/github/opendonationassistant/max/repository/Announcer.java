@@ -2,6 +2,7 @@ package io.github.opendonationassistant.max.repository;
 
 import io.github.opendonationassistant.integration.max.MaxApi;
 import io.github.opendonationassistant.integration.max.MaxApi.MessageRequest;
+import io.github.opendonationassistant.integration.max.model.Message;
 
 public class Announcer {
 
@@ -40,6 +41,7 @@ public class Announcer {
 
   public void announce() {
     MessageRequest request = new MessageRequest(data.text());
-    api.sendMessage(request, data.chatId()).join();
+    final Message announced = api.sendMessage(request, data.chatId()).join();
+    announceRepository.create(announced.body().mid(), data.chatId());
   }
 }

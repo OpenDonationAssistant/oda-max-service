@@ -1,5 +1,6 @@
 package io.github.opendonationassistant.max.repository;
 
+import com.fasterxml.uuid.Generators;
 import io.github.opendonationassistant.integration.max.MaxApi;
 import jakarta.inject.Singleton;
 
@@ -12,5 +13,11 @@ public class AnnounceRepository {
   public AnnounceRepository(MaxApi api, AnnounceDataRepository dataRepository) {
     this.api = api;
     this.dataRepository = dataRepository;
+  }
+
+  public void create(String mid, Long chatId) {
+    var id = Generators.timeBasedEpochGenerator().generate().toString();
+    var data = new AnnounceData(id, mid, chatId);
+    dataRepository.save(data);
   }
 }
