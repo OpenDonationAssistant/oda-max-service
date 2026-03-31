@@ -22,4 +22,8 @@ public class MaxAccount {
   public List<Chat> chats() {
     return chatRepository.list(data.maxId());
   }
+
+  public MaxAccountData data(){
+    return data;
+  }
 }

@@ -14,4 +14,3 @@ jobs:
     with:
       service: max-service
       version: "${{ github.RUN_NUMBER }}"
-      npm: false
