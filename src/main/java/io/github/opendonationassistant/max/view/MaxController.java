@@ -42,7 +42,7 @@ public class MaxController extends BaseController {
 
   @Get("/max/accounts")
   @Secured(SecurityRule.IS_AUTHENTICATED)
-  public HttpResponse<List<AccountDto>> chats(Authentication auth) {
+  public HttpResponse<List<AccountDto>> accounts(Authentication auth) {
     var ownerId = getOwnerId(auth);
     if (ownerId.isEmpty()) {
       return HttpResponse.unauthorized();

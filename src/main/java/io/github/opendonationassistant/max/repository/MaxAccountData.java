@@ -6,4 +6,9 @@ import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable
 @MappedEntity("accounts")
-public record MaxAccountData(@Id String id, String recipientId, String maxId) {}
+public record MaxAccountData(
+  @Id String id,
+  String recipientId,
+  String maxId,
+  Boolean enabled
+) {}
