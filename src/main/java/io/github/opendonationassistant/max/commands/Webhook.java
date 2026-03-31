@@ -78,9 +78,11 @@ public class Webhook {
     api
       .getChatInfo(chatId)
       .thenAccept(chat -> {
-        chatRepository.save(
-          new ChatData(chat.id(), chat.title(), chat.ownerId())
-        );
+        var ownerId = chat.ownerId();
+        if (ownerId == null) {
+          return;
+        }
+        chatRepository.save(new ChatData(chat.id(), chat.title(), ownerId));
       })
       .join();
   }

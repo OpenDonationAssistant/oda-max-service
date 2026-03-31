@@ -72,7 +72,7 @@ public class ChatRefresher {
           return;
         }
         chatRepository.save(
-          new ChatData(chat.id(), chat.title(), chat.ownerId())
+          new ChatData(chat.id(), chat.title(), ownerId)
         );
       });
     return Optional.ofNullable(chats.getLast())
