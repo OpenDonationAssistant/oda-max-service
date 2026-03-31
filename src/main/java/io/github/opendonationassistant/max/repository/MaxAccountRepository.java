@@ -39,15 +39,19 @@ public class MaxAccountRepository {
   }
 
   public Optional<MaxAccount> findByRecipientId(String recipientId) {
-    return Optional.ofNullable(
-      dataRepository.findByRecipientId(recipientId).getFirst()
-    ).map(this::convert);
+    return dataRepository
+      .findByRecipientId(recipientId)
+      .stream()
+      .findFirst()
+      .map(this::convert);
   }
 
   public Optional<MaxAccount> findByMaxId(Long maxId) {
-    return Optional.ofNullable(
-      dataRepository.findByMaxId(maxId).getFirst()
-    ).map(this::convert);
+    return dataRepository
+      .findByMaxId(maxId)
+      .stream()
+      .findFirst()
+      .map(this::convert);
   }
 
   private MaxAccount convert(MaxAccountData data) {
