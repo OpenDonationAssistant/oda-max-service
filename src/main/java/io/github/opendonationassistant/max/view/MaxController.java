@@ -3,7 +3,6 @@ package io.github.opendonationassistant.max.view;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.github.opendonationassistant.max.repository.AnnouncerData;
 import io.github.opendonationassistant.max.repository.AnnouncerDataRepository;
-import io.github.opendonationassistant.max.repository.MaxAccount;
 import io.github.opendonationassistant.max.repository.MaxAccountRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
@@ -57,5 +56,5 @@ public class MaxController extends BaseController {
   }
 
   @Serdeable
-  public static record AccountDto(String id) {}
+  public static record AccountDto(Integer id) {}
 }
