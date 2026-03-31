@@ -18,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.Nullable;
 
 @Client("max")
-@Header(name = AUTHORIZATION, value = "Bearer ${max.token}")
+@Header(name = AUTHORIZATION, value = "${max.token}")
 public interface MaxApi {
   @Post("/messages")
   public CompletableFuture<Message> sendMessage(
