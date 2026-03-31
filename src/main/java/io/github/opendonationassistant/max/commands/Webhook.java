@@ -2,8 +2,11 @@ package io.github.opendonationassistant.max.commands;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.opendonationassistant.commons.logging.ODALogger;
+import io.github.opendonationassistant.integration.max.MaxApi;
 import io.github.opendonationassistant.integration.max.model.Message;
 import io.github.opendonationassistant.integration.max.model.User;
+import io.github.opendonationassistant.max.repository.ChatData;
+import io.github.opendonationassistant.max.repository.ChatRepository;
 import io.github.opendonationassistant.max.repository.MaxAccountRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
@@ -24,14 +27,20 @@ public class Webhook {
   private ODALogger log = new ODALogger(this);
   private final Map<String, String> linkCodes;
   private final MaxAccountRepository repository;
+  private final MaxApi api;
+  private final ChatRepository chatRepository;
 
   @Inject
   public Webhook(
     Map<String, String> linkCodes,
-    MaxAccountRepository repository
+    MaxAccountRepository repository,
+    ChatRepository chatRepository,
+    MaxApi api
   ) {
     this.linkCodes = linkCodes;
     this.repository = repository;
+    this.api = api;
+    this.chatRepository = chatRepository;
   }
 
   @Post("/notification/max")
@@ -46,6 +55,9 @@ public class Webhook {
           this::handleBotStarted
         );
         break;
+      case "bot_added":
+        Optional.ofNullable(payload.chatId()).ifPresent(this::handleBotAdded);
+        break;
       default:
         break;
     }
@@ -58,12 +70,24 @@ public class Webhook {
     );
   }
 
+  private void handleBotAdded(Integer chatId) {
+    api
+      .getChatInfo(chatId)
+      .thenAccept(chat -> {
+        chatRepository.save(
+          new ChatData(chat.id(), chat.title(), chat.ownerId())
+        );
+      })
+      .join();
+  }
+
   @Serdeable
   public static record WebhookPayload(
     @JsonProperty("update_type") String updateType,
     String timestamp,
     Message message,
     @Nullable User user,
+    @Nullable Integer chatId,
     @Nullable String payload
   ) {}
 }

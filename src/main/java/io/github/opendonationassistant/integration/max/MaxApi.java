@@ -3,6 +3,8 @@ package io.github.opendonationassistant.integration.max;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.opendonationassistant.integration.max.model.Message;
 import io.micronaut.http.annotation.Body;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
 import io.micronaut.http.annotation.QueryValue;
 import io.micronaut.http.client.annotation.Client;
@@ -15,8 +17,18 @@ public interface MaxApi {
   @Post("/messages")
   public CompletableFuture<Message> sendMessage(
     @Body MessageRequest request,
-    @QueryValue String token
+    @QueryValue("chat_id") String chatId
   );
+
+  @Get("/chats/{chatId}")
+  public CompletableFuture<Chat> getChatInfo(@PathVariable Integer chatId);
+
+  @Serdeable
+  public static record Chat(
+    @JsonProperty("chat_id") Integer id,
+    String title,
+    @JsonProperty("owner_id") String ownerId
+  ) {}
 
   @Serdeable
   public static record MessageRequest(String text) {}
