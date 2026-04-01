@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.opendonationassistant</groupId>
   <artifactId>oda-max-service</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <packaging>${packaging}</packaging>
 
   <parent>
@@ -29,7 +29,6 @@
       <url>https://repo.maven.apache.org/maven2</url>
     </repository>
   </repositories>
-
 
   <dependencies>
 
@@ -195,8 +194,11 @@
     </dependency>
 
   </dependencies>
+
+
   <build>
     <plugins>
+
       <plugin>
         <groupId>io.micronaut.maven</groupId>
         <artifactId>micronaut-maven-plugin</artifactId>

@@ -13,6 +13,8 @@ import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,7 +39,7 @@ public class MaxController extends BaseController {
     description = "OK",
     content = @io.swagger.v3.oas.annotations.media.Content(
       schema = @io.swagger.v3.oas.annotations.media.Schema(
-        implementation = List.class
+        implementation = AnnouncersResponse.class
       )
     )
   )
@@ -56,7 +58,7 @@ public class MaxController extends BaseController {
     description = "OK",
     content = @io.swagger.v3.oas.annotations.media.Content(
       schema = @io.swagger.v3.oas.annotations.media.Schema(
-        implementation = List.class
+        implementation = AccountsResponse.class
       )
     )
   )
@@ -76,4 +78,8 @@ public class MaxController extends BaseController {
 
   @Serdeable
   public static record AccountDto(Long id) {}
+
+  public static class AnnouncersResponse extends ArrayList<AnnouncerData>{}
+
+  public static class AccountsResponse extends ArrayList<AccountDto>{}
 }

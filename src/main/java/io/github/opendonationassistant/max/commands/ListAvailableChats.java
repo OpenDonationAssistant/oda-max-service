@@ -11,8 +11,10 @@ import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import org.jspecify.annotations.Nullable;
 
 @Controller
 public class ListAvailableChats extends BaseController {
@@ -31,7 +33,7 @@ public class ListAvailableChats extends BaseController {
     description = "OK",
     content = @io.swagger.v3.oas.annotations.media.Content(
       schema = @io.swagger.v3.oas.annotations.media.Schema(
-        implementation = List.class
+        implementation = ChatsResponse.class
       )
     )
   )
@@ -57,6 +59,8 @@ public class ListAvailableChats extends BaseController {
       )
     );
   }
+
+  public static class ChatsResponse extends ArrayList<ChatDto> {}
 
   @Serdeable
   public record ChatDto(Long id, String title) {}
