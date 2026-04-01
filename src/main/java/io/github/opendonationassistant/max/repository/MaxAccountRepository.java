@@ -55,6 +55,6 @@ public class MaxAccountRepository {
   }
 
   private MaxAccount convert(MaxAccountData data) {
-    return new MaxAccount(data, api, chatRepository);
+    return new MaxAccount(data, api, chatRepository, dataRepository);
   }
 }

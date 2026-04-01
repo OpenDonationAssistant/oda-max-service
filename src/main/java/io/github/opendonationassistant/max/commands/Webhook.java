@@ -15,6 +15,7 @@ import io.micronaut.http.annotation.Post;
 import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.inject.Inject;
 import java.util.Map;
 import java.util.Optional;
@@ -45,6 +46,7 @@ public class Webhook {
 
   @Post("/notification/max")
   @Secured(SecurityRule.IS_ANONYMOUS)
+  @Hidden
   public CompletableFuture<HttpResponse<Void>> webhook(
     @Body WebhookPayload payload
   ) {

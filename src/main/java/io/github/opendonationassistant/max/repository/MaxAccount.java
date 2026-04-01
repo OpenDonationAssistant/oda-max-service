@@ -8,15 +8,18 @@ public class MaxAccount {
   private final MaxAccountData data;
   private final MaxApi api;
   private final ChatRepository chatRepository;
+  private final MaxAccountDataRepository dataRepository;
 
   public MaxAccount(
     MaxAccountData data,
     MaxApi api,
-    ChatRepository chatRepository
+    ChatRepository chatRepository,
+    MaxAccountDataRepository dataRepository
   ) {
     this.data = data;
     this.api = api;
     this.chatRepository = chatRepository;
+    this.dataRepository = dataRepository;
   }
 
   public List<Chat> chats() {
@@ -25,5 +28,9 @@ public class MaxAccount {
 
   public MaxAccountData data(){
     return data;
+  }
+
+  public void delete(){
+    dataRepository.delete(data);
   }
 }

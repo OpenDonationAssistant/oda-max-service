@@ -1,7 +1,7 @@
 package io.github.opendonationassistant.max.commands;
 
 import io.github.opendonationassistant.commons.micronaut.BaseController;
-import io.github.opendonationassistant.max.repository.AnnouncerRepository;
+import io.github.opendonationassistant.max.repository.MaxAccountRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Post;
@@ -13,26 +13,30 @@ import jakarta.inject.Inject;
 import java.util.concurrent.CompletableFuture;
 
 @Controller
-public class ToggleAnnouncer extends BaseController {
+public class DeleteAccount extends BaseController {
 
-  private final AnnouncerRepository repository;
+  private final MaxAccountRepository repository;
 
   @Inject
-  public ToggleAnnouncer(AnnouncerRepository repository) {
+  public DeleteAccount(MaxAccountRepository repository) {
     this.repository = repository;
   }
 
-  @Post("/max/commands/toggle-announcer")
+  @Post("/max/commands/delete-account")
   @Secured(SecurityRule.IS_AUTHENTICATED)
   @ApiResponse(responseCode = "200", description = "OK")
-  public CompletableFuture<HttpResponse<Void>> disableAnnouncer(
+  public CompletableFuture<HttpResponse<Void>> deleteAccount(
     Authentication auth
   ) {
     var ownerId = getOwnerId(auth);
     if (ownerId.isEmpty()) {
       return CompletableFuture.completedFuture(HttpResponse.unauthorized());
     }
-    repository.findByRecipientId(ownerId.get()).forEach(it -> it.toggle());
+    var account = repository.findByRecipientId(ownerId.get());
+    if (account.isEmpty()) {
+      return CompletableFuture.completedFuture(HttpResponse.notFound());
+    }
+    account.get().delete();
     return CompletableFuture.completedFuture(HttpResponse.ok());
   }
 }

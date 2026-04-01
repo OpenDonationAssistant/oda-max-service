@@ -12,6 +12,7 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -30,6 +31,7 @@ public class AddAnnouncer extends BaseController {
 
   @Post("/max/commands/add-announcer")
   @Secured(SecurityRule.IS_AUTHENTICATED)
+  @ApiResponse(responseCode = "200", description = "OK")
   public CompletableFuture<HttpResponse<Void>> addAnnouncer(
     Authentication auth,
     @Body AddAnnouncerRequest request

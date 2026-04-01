@@ -9,6 +9,7 @@ import io.micronaut.security.annotation.Secured;
 import io.micronaut.security.authentication.Authentication;
 import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -25,6 +26,15 @@ public class ListAvailableChats extends BaseController {
 
   @Post("/max/commands/list-available-chats")
   @Secured(SecurityRule.IS_AUTHENTICATED)
+  @ApiResponse(
+    responseCode = "200",
+    description = "OK",
+    content = @io.swagger.v3.oas.annotations.media.Content(
+      schema = @io.swagger.v3.oas.annotations.media.Schema(
+        implementation = List.class
+      )
+    )
+  )
   public CompletableFuture<HttpResponse<List<ChatDto>>> listAvailableChats(
     Authentication auth
   ) {
