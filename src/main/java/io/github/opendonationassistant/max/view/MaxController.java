@@ -13,7 +13,6 @@ import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,11 +43,10 @@ public class MaxController extends BaseController {
     )
   )
   public HttpResponse<List<AnnouncerData>> announcers(Authentication auth) {
-    var ownerId = getOwnerId(auth);
-    if (ownerId.isEmpty()) {
-      return HttpResponse.unauthorized();
-    }
-    return HttpResponse.ok(repository.findByRecipientId(ownerId.get()));
+    return getOwnerId(auth)
+      .map(repository::findByRecipientId)
+      .map(HttpResponse::ok)
+      .orElseGet(HttpResponse::unauthorized);
   }
 
   @Get("/max/accounts")
@@ -71,15 +69,17 @@ public class MaxController extends BaseController {
       accountRepository
         .findByRecipientId(ownerId.get())
         .stream()
-        .map(it -> new AccountDto(it.data().maxId()))
+        .map(it ->
+          new AccountDto(it.data().id(), it.data().maxId(), it.data().enabled())
+        )
         .toList()
     );
   }
 
   @Serdeable
-  public static record AccountDto(Long id) {}
+  public static record AccountDto(String id, Long maxId, boolean enabled) {}
 
-  public static class AnnouncersResponse extends ArrayList<AnnouncerData>{}
+  public static class AnnouncersResponse extends ArrayList<AnnouncerData> {}
 
-  public static class AccountsResponse extends ArrayList<AccountDto>{}
+  public static class AccountsResponse extends ArrayList<AccountDto> {}
 }

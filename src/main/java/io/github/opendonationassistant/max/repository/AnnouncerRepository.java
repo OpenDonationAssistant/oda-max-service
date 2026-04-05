@@ -6,6 +6,7 @@ import io.github.opendonationassistant.max.repository.AnnouncerData.Button;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class AnnouncerRepository {
@@ -43,5 +44,13 @@ public class AnnouncerRepository {
       .stream()
       .map(data -> new Announcer(data, dataRepository, announceRepository, api))
       .toList();
+  }
+
+  public Optional<Announcer> findById(String id) {
+    var data = dataRepository.findById(id).orElse(null);
+    if (data == null) {
+      return Optional.empty();
+    }
+    return Optional.of(new Announcer(data, dataRepository, announceRepository, api));
   }
 }

@@ -1,7 +1,8 @@
 package io.github.opendonationassistant.max.commands;
 
+import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
-import io.github.opendonationassistant.max.repository.MaxAccountRepository;
+import io.github.opendonationassistant.max.repository.AnnouncerRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
@@ -12,20 +13,24 @@ import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import org.jspecify.annotations.Nullable;
 
 @Controller
-public class DeleteAccount extends BaseController {
+public class UpdateAnnouncer extends BaseController {
 
-  private final MaxAccountRepository repository;
+  private final ODALogger log = new ODALogger(this);
+
+  private final AnnouncerRepository repository;
 
   @Inject
-  public DeleteAccount(MaxAccountRepository repository) {
+  public UpdateAnnouncer(AnnouncerRepository repository) {
     this.repository = repository;
   }
 
-  @Post("/max/commands/delete-account")
+  @Post("/max/commands/update-announcer")
   @Secured(SecurityRule.IS_AUTHENTICATED)
   @ApiResponse(
     responseCode = "200",
@@ -36,18 +41,9 @@ public class DeleteAccount extends BaseController {
       )
     )
   )
-  @ApiResponse(
-    responseCode = "404",
-    description = "Not Found",
-    content = @io.swagger.v3.oas.annotations.media.Content(
-      schema = @io.swagger.v3.oas.annotations.media.Schema(
-        implementation = Void.class
-      )
-    )
-  )
-  public CompletableFuture<HttpResponse<Void>> deleteAccount(
+  public CompletableFuture<HttpResponse<Void>> updateAnnouncer(
     Authentication auth,
-    @Body DeleteAccountCommand command
+    @Body UpdateAnnouncerRequest request
   ) {
     var ownerId = getOwnerId(auth);
     if (ownerId.isEmpty()) {
@@ -55,16 +51,38 @@ public class DeleteAccount extends BaseController {
     }
     return CompletableFuture.supplyAsync(() ->
       repository
-        .findById(command.id())
+        .findById(request.id())
         .filter(it -> it.data().recipientId().equals(ownerId.get()))
-        .map(it -> {
-          it.delete();
+        .map(announcer -> {
+          announcer.updateTextAndButtons(
+            request.text(),
+            Optional.ofNullable(request.buttons())
+              .map(buttons ->
+                buttons
+                  .stream()
+                  .map(it ->
+                    new io.github.opendonationassistant.max.repository.AnnouncerData.Button(
+                      it.text(),
+                      it.url()
+                    )
+                  )
+                  .toList()
+              )
+              .orElse(null)
+          );
           return HttpResponse.<Void>ok();
         })
-        .orElseGet(() -> HttpResponse.notFound())
+        .orElse(HttpResponse.unauthorized())
     );
   }
 
   @Serdeable
-  public static record DeleteAccountCommand(String id) {}
+  public static record UpdateAnnouncerRequest(
+    String id,
+    @Nullable String text,
+    @Nullable List<Button> buttons
+  ) {}
+
+  @Serdeable
+  public static record Button(String text, String url) {}
 }
