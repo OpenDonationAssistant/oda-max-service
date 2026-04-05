@@ -2,6 +2,7 @@ package io.github.opendonationassistant;
 
 import static io.github.opendonationassistant.rabbit.Exchange.Exchange;
 
+import io.github.opendonationassistant.max.commands.Webhook;
 import io.github.opendonationassistant.rabbit.AMQPConfiguration;
 import io.github.opendonationassistant.rabbit.Exchange;
 import io.github.opendonationassistant.rabbit.Queue;
@@ -10,6 +11,7 @@ import io.micronaut.context.ApplicationContextConfigurer;
 import io.micronaut.context.annotation.Bean;
 import io.micronaut.context.annotation.ContextConfigurer;
 import io.micronaut.context.annotation.Factory;
+import io.micronaut.openapi.annotation.OpenAPIExclude;
 import io.micronaut.rabbitmq.connect.ChannelInitializer;
 import io.micronaut.runtime.Micronaut;
 import io.swagger.v3.oas.annotations.*;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @OpenAPIDefinition(info = @Info(title = "oda-max-service"))
+@OpenAPIExclude(classes = Webhook.class)
 @Factory
 public class Application {
 

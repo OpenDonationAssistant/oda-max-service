@@ -4,13 +4,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.github.opendonationassistant</groupId>
   <artifactId>oda-max-service</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
   <packaging>${packaging}</packaging>
 
   <parent>
     <groupId>io.micronaut.platform</groupId>
     <artifactId>micronaut-parent</artifactId>
-    <version>4.10.10</version>
+    <version>4.10.11</version>
   </parent>
 
   <properties>
@@ -41,7 +41,7 @@
     <dependency>
       <groupId>io.github.opendonationassistant</groupId>
       <artifactId>oda-rabbit-conf</artifactId>
-      <version>0.10.200</version>
+      <version>0.10.204</version>
     </dependency>
 
     <dependency>

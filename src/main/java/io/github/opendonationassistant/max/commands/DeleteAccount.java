@@ -24,7 +24,24 @@ public class DeleteAccount extends BaseController {
 
   @Post("/max/commands/delete-account")
   @Secured(SecurityRule.IS_AUTHENTICATED)
-  @ApiResponse(responseCode = "200", description = "OK")
+  @ApiResponse(
+    responseCode = "200",
+    description = "OK",
+    content = @io.swagger.v3.oas.annotations.media.Content(
+      schema = @io.swagger.v3.oas.annotations.media.Schema(
+        implementation = Void.class
+      )
+    )
+  )
+  @ApiResponse(
+    responseCode = "404",
+    description = "Not Found",
+    content = @io.swagger.v3.oas.annotations.media.Content(
+      schema = @io.swagger.v3.oas.annotations.media.Schema(
+        implementation = Void.class
+      )
+    )
+  )
   public CompletableFuture<HttpResponse<Void>> deleteAccount(
     Authentication auth
   ) {
@@ -32,11 +49,14 @@ public class DeleteAccount extends BaseController {
     if (ownerId.isEmpty()) {
       return CompletableFuture.completedFuture(HttpResponse.unauthorized());
     }
-    var account = repository.findByRecipientId(ownerId.get());
-    if (account.isEmpty()) {
-      return CompletableFuture.completedFuture(HttpResponse.notFound());
-    }
-    account.get().delete();
-    return CompletableFuture.completedFuture(HttpResponse.ok());
+    return CompletableFuture.supplyAsync(() ->
+      repository
+        .findByRecipientId(ownerId.get())
+        .map(it -> {
+          it.delete();
+          return HttpResponse.<Void>ok();
+        })
+        .orElseGet(() -> HttpResponse.notFound())
+    );
   }
 }

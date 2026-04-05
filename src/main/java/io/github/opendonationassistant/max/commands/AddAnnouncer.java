@@ -31,7 +31,15 @@ public class AddAnnouncer extends BaseController {
 
   @Post("/max/commands/add-announcer")
   @Secured(SecurityRule.IS_AUTHENTICATED)
-  @ApiResponse(responseCode = "200", description = "OK")
+  @ApiResponse(
+    responseCode = "200",
+    description = "OK",
+    content = @io.swagger.v3.oas.annotations.media.Content(
+      schema = @io.swagger.v3.oas.annotations.media.Schema(
+        implementation = Void.class
+      )
+    )
+  )
   public CompletableFuture<HttpResponse<Void>> addAnnouncer(
     Authentication auth,
     @Body AddAnnouncerRequest request
@@ -54,7 +62,11 @@ public class AddAnnouncer extends BaseController {
   }
 
   @Serdeable
-  public static record AddAnnouncerRequest(String text, Long chatId, List<Button> buttons) {}
+  public static record AddAnnouncerRequest(
+    String text,
+    Long chatId,
+    List<Button> buttons
+  ) {}
 
   @Serdeable
   public static record Button(String text, String url) {}

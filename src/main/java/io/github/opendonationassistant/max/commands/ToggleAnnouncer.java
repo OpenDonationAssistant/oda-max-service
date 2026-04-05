@@ -24,7 +24,15 @@ public class ToggleAnnouncer extends BaseController {
 
   @Post("/max/commands/toggle-announcer")
   @Secured(SecurityRule.IS_AUTHENTICATED)
-  @ApiResponse(responseCode = "200", description = "OK")
+  @ApiResponse(
+    responseCode = "200",
+    description = "OK",
+    content = @io.swagger.v3.oas.annotations.media.Content(
+      schema = @io.swagger.v3.oas.annotations.media.Schema(
+        implementation = Void.class
+      )
+    )
+  )
   public CompletableFuture<HttpResponse<Void>> disableAnnouncer(
     Authentication auth
   ) {

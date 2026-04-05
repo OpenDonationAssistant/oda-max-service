@@ -46,7 +46,6 @@ public class Webhook {
 
   @Post("/notification/max")
   @Secured(SecurityRule.IS_ANONYMOUS)
-  @Hidden
   public CompletableFuture<HttpResponse<Void>> webhook(
     @Body WebhookPayload payload
   ) {
