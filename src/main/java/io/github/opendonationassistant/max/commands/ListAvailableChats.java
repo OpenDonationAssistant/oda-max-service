@@ -14,7 +14,6 @@ import jakarta.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import org.jspecify.annotations.Nullable;
 
 @Controller
 public class ListAvailableChats extends BaseController {

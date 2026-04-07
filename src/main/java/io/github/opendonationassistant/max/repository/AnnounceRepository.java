@@ -3,6 +3,7 @@ package io.github.opendonationassistant.max.repository;
 import com.fasterxml.uuid.Generators;
 import io.github.opendonationassistant.integration.max.MaxApi;
 import jakarta.inject.Singleton;
+import java.time.Instant;
 
 @Singleton
 public class AnnounceRepository {
@@ -17,7 +18,7 @@ public class AnnounceRepository {
 
   public void create(String mid, Long chatId) {
     var id = Generators.timeBasedEpochGenerator().generate().toString();
-    var data = new AnnounceData(id, mid, chatId);
+    var data = new AnnounceData(id, mid, chatId, Instant.now());
     dataRepository.save(data);
   }
 }

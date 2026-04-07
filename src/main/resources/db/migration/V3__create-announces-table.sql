@@ -1,5 +1,6 @@
 CREATE TABLE announces (
     id VARCHAR(255) PRIMARY KEY,
     mid VARCHAR(512) NOT NULL,
-    chat_id BIGINT NOT NULL
+    chat_id BIGINT NOT NULL,
+    time TIMESTAMP NOT NULL
 );

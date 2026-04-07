@@ -56,7 +56,9 @@ public class AddAnnouncer extends BaseController {
         .buttons()
         .stream()
         .map(it -> new AnnouncerData.Button(it.text(), it.url()))
-        .toList()
+        .toList(),
+      request.trigger(),
+      request.type()
     );
     return CompletableFuture.completedFuture(HttpResponse.ok());
   }
@@ -65,7 +67,9 @@ public class AddAnnouncer extends BaseController {
   public static record AddAnnouncerRequest(
     String text,
     Long chatId,
-    List<Button> buttons
+    List<Button> buttons,
+    String trigger,
+    String type
   ) {}
 
   @Serdeable

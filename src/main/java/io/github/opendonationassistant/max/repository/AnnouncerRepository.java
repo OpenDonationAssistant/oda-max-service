@@ -30,10 +30,21 @@ public class AnnouncerRepository {
     String recipientId,
     Long chatId,
     String text,
-    List<Button> buttons
+    List<Button> buttons,
+    String trigger,
+    String type
   ) {
     var id = Generators.timeBasedEpochGenerator().generate().toString();
-    var data = new AnnouncerData(id, recipientId, chatId, text, buttons, true);
+    var data = new AnnouncerData(
+      id,
+      recipientId,
+      chatId,
+      text,
+      buttons,
+      true,
+      trigger,
+      type
+    );
     dataRepository.save(data);
     return new Announcer(data, dataRepository, announceRepository, api);
   }
@@ -51,6 +62,8 @@ public class AnnouncerRepository {
     if (data == null) {
       return Optional.empty();
     }
-    return Optional.of(new Announcer(data, dataRepository, announceRepository, api));
+    return Optional.of(
+      new Announcer(data, dataRepository, announceRepository, api)
+    );
   }
 }

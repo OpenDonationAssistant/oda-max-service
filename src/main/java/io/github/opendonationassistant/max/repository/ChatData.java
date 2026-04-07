@@ -1,10 +1,9 @@
 package io.github.opendonationassistant.max.repository;
 
-import org.jspecify.annotations.Nullable;
-
 import io.micronaut.data.annotation.Id;
 import io.micronaut.data.annotation.MappedEntity;
 import io.micronaut.serde.annotation.Serdeable;
+import org.jspecify.annotations.Nullable;
 
 @Serdeable
 @MappedEntity("chats")

@@ -15,7 +15,9 @@ public record AnnouncerData(
   Long chatId,
   String text,
   @MappedProperty(type = DataType.JSON, value = "buttons") List<Button> buttons,
-  Boolean enabled
+  Boolean enabled,
+  String condition,
+  String announcerType
 ) {
   @Serdeable
   public static record Button(String text, String url) {}

@@ -13,6 +13,7 @@ import io.micronaut.security.rules.SecurityRule;
 import io.micronaut.serde.annotation.Serdeable;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -41,6 +42,7 @@ public class UpdateAnnouncer extends BaseController {
       )
     )
   )
+  @Transactional
   public CompletableFuture<HttpResponse<Void>> updateAnnouncer(
     Authentication auth,
     @Body UpdateAnnouncerRequest request
@@ -54,7 +56,7 @@ public class UpdateAnnouncer extends BaseController {
         .findById(request.id())
         .filter(it -> it.data().recipientId().equals(ownerId.get()))
         .map(announcer -> {
-          announcer.updateTextAndButtons(
+          announcer.update(
             request.text(),
             Optional.ofNullable(request.buttons())
               .map(buttons ->
@@ -68,7 +70,9 @@ public class UpdateAnnouncer extends BaseController {
                   )
                   .toList()
               )
-              .orElse(null)
+              .orElse(null),
+            request.trigger(),
+            request.type()
           );
           return HttpResponse.<Void>ok();
         })
@@ -80,7 +84,9 @@ public class UpdateAnnouncer extends BaseController {
   public static record UpdateAnnouncerRequest(
     String id,
     @Nullable String text,
-    @Nullable List<Button> buttons
+    @Nullable List<Button> buttons,
+    @Nullable String trigger,
+    @Nullable String type
   ) {}
 
   @Serdeable

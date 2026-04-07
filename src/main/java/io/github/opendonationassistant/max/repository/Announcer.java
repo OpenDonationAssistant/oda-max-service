@@ -6,7 +6,6 @@ import io.github.opendonationassistant.integration.max.model.Message;
 import io.github.opendonationassistant.max.repository.AnnouncerData.Button;
 import java.util.List;
 import java.util.Optional;
-
 import org.jspecify.annotations.Nullable;
 
 public class Announcer {
@@ -35,7 +34,9 @@ public class Announcer {
       data.chatId(),
       data.text(),
       data.buttons(),
-      !data.enabled()
+      !data.enabled(),
+      data.condition(),
+      data.announcerType()
     );
     save();
   }
@@ -44,38 +45,21 @@ public class Announcer {
     return data;
   }
 
-  public void updateTextAndButtons(@Nullable String text, @Nullable List<Button> buttons) {
+  public void update(
+    @Nullable String text,
+    @Nullable List<Button> buttons,
+    @Nullable String trigger,
+    @Nullable String type
+  ) {
     this.data = new AnnouncerData(
       data.id(),
       data.recipientId(),
       data.chatId(),
       Optional.ofNullable(text).orElse(data.text()),
       Optional.ofNullable(buttons).orElse(data.buttons()),
-      data.enabled()
-    );
-    save();
-  }
-
-  public void updateText(String text) {
-    this.data = new AnnouncerData(
-      data.id(),
-      data.recipientId(),
-      data.chatId(),
-      text,
-      data.buttons(),
-      data.enabled()
-    );
-    save();
-  }
-
-  public void updateButtons(List<Button> buttons) {
-    this.data = new AnnouncerData(
-      data.id(),
-      data.recipientId(),
-      data.chatId(),
-      data.text(),
-      buttons,
-      data.enabled()
+      data.enabled(),
+      Optional.ofNullable(trigger).orElse(data.condition()),
+      Optional.ofNullable(type).orElse(data.announcerType())
     );
     save();
   }
