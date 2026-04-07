@@ -31,6 +31,7 @@ public class Announcer {
     this.data = new AnnouncerData(
       data.id(),
       data.recipientId(),
+      data.accountId(),
       data.chatId(),
       data.text(),
       data.buttons(),
@@ -54,6 +55,7 @@ public class Announcer {
     this.data = new AnnouncerData(
       data.id(),
       data.recipientId(),
+      data.accountId(),
       data.chatId(),
       Optional.ofNullable(text).orElse(data.text()),
       Optional.ofNullable(buttons).orElse(data.buttons()),

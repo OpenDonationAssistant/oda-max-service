@@ -1,6 +1,7 @@
 CREATE TABLE announcers (
     id VARCHAR(255) PRIMARY KEY,
     recipient_id VARCHAR(255) NOT NULL,
+    account_id VARCHAR(255) NOT NULL,
     chat_id BIGINT NOT NULL,
     text text NOT NULL,
     buttons jsonb not null,

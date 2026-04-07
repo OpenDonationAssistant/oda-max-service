@@ -50,6 +50,7 @@ public class AddAnnouncer extends BaseController {
     }
     repository.create(
       ownerId.get(),
+      request.accountId(),
       request.chatId(),
       request.text(),
       request
@@ -66,6 +67,7 @@ public class AddAnnouncer extends BaseController {
   @Serdeable
   public static record AddAnnouncerRequest(
     String text,
+    String accountId,
     Long chatId,
     List<Button> buttons,
     String trigger,

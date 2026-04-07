@@ -28,6 +28,7 @@ public class AnnouncerRepository {
 
   public Announcer create(
     String recipientId,
+    String accountId,
     Long chatId,
     String text,
     List<Button> buttons,
@@ -38,6 +39,7 @@ public class AnnouncerRepository {
     var data = new AnnouncerData(
       id,
       recipientId,
+      accountId,
       chatId,
       text,
       buttons,

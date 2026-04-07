@@ -42,11 +42,27 @@ public class MaxController extends BaseController {
       )
     )
   )
-  public HttpResponse<List<AnnouncerData>> announcers(Authentication auth) {
+  public HttpResponse<List<AnnouncerDto>> announcers(Authentication auth) {
     return getOwnerId(auth)
       .map(repository::findByRecipientId)
+      .map(announcers ->
+        announcers.stream().map(this::mapToDto).toList()
+      )
       .map(HttpResponse::ok)
       .orElseGet(HttpResponse::unauthorized);
+  }
+
+  private AnnouncerDto mapToDto(AnnouncerData data) {
+    return new AnnouncerDto(
+      data.id(),
+      data.recipientId(),
+      data.chatId(),
+      data.text(),
+      data.buttons(),
+      data.enabled(),
+      data.condition(),
+      data.announcerType()
+    );
   }
 
   @Get("/max/accounts")
@@ -79,7 +95,19 @@ public class MaxController extends BaseController {
   @Serdeable
   public static record AccountDto(String id, Long maxId, boolean enabled) {}
 
-  public static class AnnouncersResponse extends ArrayList<AnnouncerData> {}
+  @Serdeable
+  public static record AnnouncerDto(
+    String id,
+    String recipientId,
+    Long chatId,
+    String text,
+    List<AnnouncerData.Button> buttons,
+    Boolean enabled,
+    String condition,
+    String announcerType
+  ) {}
+
+  public static class AnnouncersResponse extends ArrayList<AnnouncerDto> {}
 
   public static class AccountsResponse extends ArrayList<AccountDto> {}
 }
