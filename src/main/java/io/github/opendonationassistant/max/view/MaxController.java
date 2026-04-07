@@ -56,6 +56,7 @@ public class MaxController extends BaseController {
     return new AnnouncerDto(
       data.id(),
       data.recipientId(),
+      data.accountId(),
       data.chatId(),
       data.text(),
       data.buttons(),
@@ -99,6 +100,7 @@ public class MaxController extends BaseController {
   public static record AnnouncerDto(
     String id,
     String recipientId,
+    String accountId,
     Long chatId,
     String text,
     List<AnnouncerData.Button> buttons,
