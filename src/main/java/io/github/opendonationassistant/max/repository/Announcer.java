@@ -50,7 +50,8 @@ public class Announcer {
     @Nullable String text,
     @Nullable List<Button> buttons,
     @Nullable String trigger,
-    @Nullable String type
+    @Nullable String type,
+    @Nullable Boolean enabled
   ) {
     this.data = new AnnouncerData(
       data.id(),
@@ -59,7 +60,7 @@ public class Announcer {
       data.chatId(),
       Optional.ofNullable(text).orElse(data.text()),
       Optional.ofNullable(buttons).orElse(data.buttons()),
-      data.enabled(),
+      Optional.ofNullable(enabled).orElse(data.enabled()),
       Optional.ofNullable(trigger).orElse(data.condition()),
       Optional.ofNullable(type).orElse(data.announcerType())
     );

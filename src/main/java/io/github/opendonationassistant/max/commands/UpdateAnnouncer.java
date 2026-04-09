@@ -2,6 +2,7 @@ package io.github.opendonationassistant.max.commands;
 
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
+import io.github.opendonationassistant.max.repository.Announcer;
 import io.github.opendonationassistant.max.repository.AnnouncerRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
@@ -31,7 +32,7 @@ public class UpdateAnnouncer extends BaseController {
     this.repository = repository;
   }
 
-  @Post("/max/commands/update-announcer")
+  @Post("/max/commands/update-announcers")
   @Secured(SecurityRule.IS_AUTHENTICATED)
   @ApiResponse(
     responseCode = "200",
@@ -51,42 +52,97 @@ public class UpdateAnnouncer extends BaseController {
     if (ownerId.isEmpty()) {
       return CompletableFuture.completedFuture(HttpResponse.unauthorized());
     }
-    return CompletableFuture.supplyAsync(() ->
-      repository
-        .findById(request.id())
-        .filter(it -> it.data().recipientId().equals(ownerId.get()))
-        .map(announcer -> {
-          announcer.update(
-            request.text(),
-            Optional.ofNullable(request.buttons())
-              .map(buttons ->
-                buttons
-                  .stream()
-                  .map(it ->
-                    new io.github.opendonationassistant.max.repository.AnnouncerData.Button(
-                      it.text(),
-                      it.url()
-                    )
+    final var updating = CompletableFuture.runAsync(() -> {
+      request
+        .updated()
+        .forEach(update -> {
+          repository
+            .findById(update.id())
+            .filter(it -> it.data().recipientId().equals(ownerId.get()))
+            .ifPresent(announcer -> {
+              announcer.update(
+                update.text(),
+                Optional.ofNullable(update.buttons())
+                  .map(buttons ->
+                    buttons
+                      .stream()
+                      .map(it ->
+                        new io.github.opendonationassistant.max.repository.AnnouncerData.Button(
+                          it.text(),
+                          it.url()
+                        )
+                      )
+                      .toList()
                   )
-                  .toList()
+                  .orElse(null),
+                update.trigger(),
+                update.type(),
+                update.enabled()
+              );
+            });
+        });
+    });
+    final var creating = CompletableFuture.runAsync(() -> {
+      request
+        .added()
+        .forEach(newAnnouncer -> {
+          repository.create(
+            ownerId.get(),
+            newAnnouncer.accountId(),
+            newAnnouncer.chatId(),
+            newAnnouncer.text(),
+            newAnnouncer
+              .buttons()
+              .stream()
+              .map(it ->
+                new io.github.opendonationassistant.max.repository.AnnouncerData.Button(
+                  it.text(),
+                  it.url()
+                )
               )
-              .orElse(null),
-            request.trigger(),
-            request.type()
+              .toList(),
+            newAnnouncer.trigger(),
+            newAnnouncer.type()
           );
-          return HttpResponse.<Void>ok();
-        })
-        .orElse(HttpResponse.unauthorized())
+        });
+    });
+    final var deleting = CompletableFuture.runAsync(() -> {
+      request
+        .deleted()
+        .stream()
+        .flatMap(id -> repository.findById(id).stream())
+        .forEach(Announcer::delete);
+    });
+    return CompletableFuture.allOf(updating, creating, deleting).thenApplyAsync(
+      it -> HttpResponse.ok()
     );
   }
 
   @Serdeable
-  public static record UpdateAnnouncerRequest(
+  public static record NewAnnouncer(
+    String text,
+    String accountId,
+    Long chatId,
+    List<Button> buttons,
+    String trigger,
+    String type
+  ) {}
+
+  @Serdeable
+  public static record AnnouncerUpdate(
     String id,
     @Nullable String text,
     @Nullable List<Button> buttons,
     @Nullable String trigger,
-    @Nullable String type
+    @Nullable String type,
+    @Nullable Boolean enabled
+  ) {}
+
+  @Serdeable
+  public static record UpdateAnnouncerRequest(
+    List<NewAnnouncer> added,
+    List<AnnouncerUpdate> updated,
+    List<String> deleted
   ) {}
 
   @Serdeable
