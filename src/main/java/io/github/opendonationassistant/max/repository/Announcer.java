@@ -75,4 +75,8 @@ public class Announcer {
     final Message announced = api.sendMessage(request, data.chatId()).join();
     announceRepository.create(announced.body().mid(), data.chatId());
   }
+
+  public void delete() {
+    dataRepository.delete(data);
+  }
 }
