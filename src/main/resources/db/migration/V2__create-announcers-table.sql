@@ -6,7 +6,6 @@ CREATE TABLE announcers (
     text text NOT NULL,
     buttons jsonb not null,
     enabled boolean not null,
-    condition VARCHAR(255) not null,
     announcer_type VARCHAR(255) not null
 );
 
