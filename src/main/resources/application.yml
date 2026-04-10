@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: oda-max-service
+  serde:
+    serialization:
+      inclusion: ALWAYS
   metrics:
     export:
       prometheus:

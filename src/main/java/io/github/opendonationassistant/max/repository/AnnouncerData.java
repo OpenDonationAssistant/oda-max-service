@@ -17,9 +17,14 @@ public record AnnouncerData(
   String text,
   @MappedProperty(type = DataType.JSON, value = "buttons") List<Button> buttons,
   Boolean enabled,
-  String condition,
-  String announcerType
+  AnnouncerType announcerType
 ) {
   @Serdeable
   public static record Button(String text, String url) {}
+
+  @Serdeable
+  public static enum AnnouncerType {
+    ANNOUNCE_STREAM_AND_DELETE,
+    ANNOUNCE_STREAM,
+  }
 }

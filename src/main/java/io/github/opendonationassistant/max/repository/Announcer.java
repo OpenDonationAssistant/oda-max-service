@@ -3,6 +3,7 @@ package io.github.opendonationassistant.max.repository;
 import io.github.opendonationassistant.integration.max.MaxApi;
 import io.github.opendonationassistant.integration.max.MaxApi.MessageRequest;
 import io.github.opendonationassistant.integration.max.model.Message;
+import io.github.opendonationassistant.max.repository.AnnouncerData.AnnouncerType;
 import io.github.opendonationassistant.max.repository.AnnouncerData.Button;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,6 @@ public class Announcer {
       data.text(),
       data.buttons(),
       !data.enabled(),
-      data.condition(),
       data.announcerType()
     );
     save();
@@ -49,8 +49,7 @@ public class Announcer {
   public void update(
     @Nullable String text,
     @Nullable List<Button> buttons,
-    @Nullable String trigger,
-    @Nullable String type,
+    @Nullable AnnouncerType type,
     @Nullable Boolean enabled
   ) {
     this.data = new AnnouncerData(
@@ -61,7 +60,6 @@ public class Announcer {
       Optional.ofNullable(text).orElse(data.text()),
       Optional.ofNullable(buttons).orElse(data.buttons()),
       Optional.ofNullable(enabled).orElse(data.enabled()),
-      Optional.ofNullable(trigger).orElse(data.condition()),
       Optional.ofNullable(type).orElse(data.announcerType())
     );
     save();

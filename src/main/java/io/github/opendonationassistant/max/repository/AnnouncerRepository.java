@@ -2,6 +2,7 @@ package io.github.opendonationassistant.max.repository;
 
 import com.fasterxml.uuid.Generators;
 import io.github.opendonationassistant.integration.max.MaxApi;
+import io.github.opendonationassistant.max.repository.AnnouncerData.AnnouncerType;
 import io.github.opendonationassistant.max.repository.AnnouncerData.Button;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -32,8 +33,7 @@ public class AnnouncerRepository {
     Long chatId,
     String text,
     List<Button> buttons,
-    String trigger,
-    String type
+    AnnouncerType type
   ) {
     var id = Generators.timeBasedEpochGenerator().generate().toString();
     var data = new AnnouncerData(
@@ -44,7 +44,6 @@ public class AnnouncerRepository {
       text,
       buttons,
       true,
-      trigger,
       type
     );
     dataRepository.save(data);

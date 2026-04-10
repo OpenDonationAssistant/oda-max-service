@@ -3,6 +3,7 @@ package io.github.opendonationassistant.max.commands;
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.github.opendonationassistant.max.repository.Announcer;
+import io.github.opendonationassistant.max.repository.AnnouncerData.AnnouncerType;
 import io.github.opendonationassistant.max.repository.AnnouncerRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
@@ -75,7 +76,6 @@ public class UpdateAnnouncer extends BaseController {
                       .toList()
                   )
                   .orElse(null),
-                update.trigger(),
                 update.type(),
                 update.enabled()
               );
@@ -101,7 +101,6 @@ public class UpdateAnnouncer extends BaseController {
                 )
               )
               .toList(),
-            newAnnouncer.trigger(),
             newAnnouncer.type()
           );
         });
@@ -124,8 +123,7 @@ public class UpdateAnnouncer extends BaseController {
     String accountId,
     Long chatId,
     List<Button> buttons,
-    String trigger,
-    String type
+    AnnouncerType type
   ) {}
 
   @Serdeable
@@ -134,7 +132,7 @@ public class UpdateAnnouncer extends BaseController {
     @Nullable String text,
     @Nullable List<Button> buttons,
     @Nullable String trigger,
-    @Nullable String type,
+    @Nullable AnnouncerType type,
     @Nullable Boolean enabled
   ) {}
 

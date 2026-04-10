@@ -3,6 +3,7 @@ package io.github.opendonationassistant.max.commands;
 import io.github.opendonationassistant.commons.logging.ODALogger;
 import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.github.opendonationassistant.max.repository.AnnouncerData;
+import io.github.opendonationassistant.max.repository.AnnouncerData.AnnouncerType;
 import io.github.opendonationassistant.max.repository.AnnouncerRepository;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Body;
@@ -58,7 +59,6 @@ public class AddAnnouncer extends BaseController {
         .stream()
         .map(it -> new AnnouncerData.Button(it.text(), it.url()))
         .toList(),
-      request.trigger(),
       request.type()
     );
     return CompletableFuture.completedFuture(HttpResponse.ok());
@@ -71,7 +71,7 @@ public class AddAnnouncer extends BaseController {
     Long chatId,
     List<Button> buttons,
     String trigger,
-    String type
+    AnnouncerType type
   ) {}
 
   @Serdeable

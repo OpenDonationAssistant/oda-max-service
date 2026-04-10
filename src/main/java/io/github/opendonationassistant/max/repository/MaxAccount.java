@@ -33,4 +33,14 @@ public class MaxAccount {
   public void delete(){
     dataRepository.delete(data);
   }
+
+  public void setEnabled(boolean enabled) {
+    var newData = new MaxAccountData(
+      data.id(),
+      data.recipientId(),
+      data.maxId(),
+      enabled
+    );
+    dataRepository.update(newData);
+  }
 }

@@ -2,6 +2,7 @@ package io.github.opendonationassistant.max.view;
 
 import io.github.opendonationassistant.commons.micronaut.BaseController;
 import io.github.opendonationassistant.max.repository.AnnouncerData;
+import io.github.opendonationassistant.max.repository.AnnouncerData.AnnouncerType;
 import io.github.opendonationassistant.max.repository.AnnouncerDataRepository;
 import io.github.opendonationassistant.max.repository.MaxAccountRepository;
 import io.micronaut.http.HttpResponse;
@@ -45,9 +46,7 @@ public class MaxController extends BaseController {
   public HttpResponse<List<AnnouncerDto>> announcers(Authentication auth) {
     return getOwnerId(auth)
       .map(repository::findByRecipientId)
-      .map(announcers ->
-        announcers.stream().map(this::mapToDto).toList()
-      )
+      .map(announcers -> announcers.stream().map(this::mapToDto).toList())
       .map(HttpResponse::ok)
       .orElseGet(HttpResponse::unauthorized);
   }
@@ -61,7 +60,6 @@ public class MaxController extends BaseController {
       data.text(),
       data.buttons(),
       data.enabled(),
-      data.condition(),
       data.announcerType()
     );
   }
@@ -105,8 +103,7 @@ public class MaxController extends BaseController {
     String text,
     List<AnnouncerData.Button> buttons,
     Boolean enabled,
-    String condition,
-    String announcerType
+    AnnouncerType announcerType
   ) {}
 
   public static class AnnouncersResponse extends ArrayList<AnnouncerDto> {}
