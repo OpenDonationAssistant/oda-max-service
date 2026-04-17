@@ -130,7 +130,7 @@
 
     <dependency>
       <groupId>io.micronaut.sql</groupId>
-      <artifactId>micronaut-jdbc-hikari</artifactId>
+      <artifactId>micronaut-jdbc-dbcp</artifactId>
       <scope>compile</scope>
     </dependency>
 

@@ -31,6 +31,8 @@ flyway:
   datasources:
     default:
       enabled: true
+      schemas: 'max'
+      default-schema: 'max'
 endpoints:
   all:
     enabled: true
