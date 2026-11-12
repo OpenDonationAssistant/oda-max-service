@@ -5,11 +5,11 @@
 ![Sonar Tests](https://img.shields.io/sonar/tests/OpenDonationAssistant_oda-max-service?server=https%3A%2F%2Fsonarcloud.io)
 ![Sonar Coverage](https://img.shields.io/sonar/coverage/OpenDonationAssistant_oda-max-service?server=https%3A%2F%2Fsonarcloud.io)
 
-## Micronaut 4.10.10 Documentation
+## Micronaut 5.2.5 Documentation
 
-- [User Guide](https://docs.micronaut.io/4.10.10/guide/index.html)
-- [API Reference](https://docs.micronaut.io/4.10.10/api/index.html)
-- [Configuration Reference](https://docs.micronaut.io/4.10.10/guide/configurationreference.html)
+- [User Guide](https://docs.micronaut.io/5.2.5/guide/index.html)
+- [API Reference](https://docs.micronaut.io/5.2.5/api/index.html)
+- [Configuration Reference](https://docs.micronaut.io/5.2.5/guide/configurationreference.html)
 - [Micronaut Guides](https://guides.micronaut.io/index.html)
 ---
 
